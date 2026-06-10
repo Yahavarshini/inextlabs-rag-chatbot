@@ -1,16 +1,16 @@
+import asyncio
 import uuid
 
-import google.generativeai as genai
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from google import genai
+from google.genai import types
 
 from app.chat import delete_session, get_history, save_message
 from app.config import settings
 from app.models import ChatRequest, ChatResponse, HistoryResponse, SessionResponse
 from app.rag import rag_engine
 from app.system_prompt import SYSTEM_PROMPT
-
-genai.configure(api_key=settings.gemini_api_key)
 
 app = FastAPI(
     title="InextLabs RAG Chatbot API",
@@ -26,7 +26,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-llm = genai.GenerativeModel("gemini-1.5-flash")
+
+def _get_genai_client() -> genai.Client:
+    return genai.Client(api_key=settings.gemini_api_key)
 
 
 @app.get("/api/health")
@@ -50,15 +52,6 @@ async def chat(request: ChatRequest):
     # Load recent conversation history from MongoDB
     raw_history = await get_history(session_id, limit=10)
 
-    # Format history into Gemini's expected format
-    chat_history = [
-        {
-            "role": "user" if msg["role"] == "user" else "model",
-            "parts": [{"text": msg["content"]}],
-        }
-        for msg in raw_history
-    ]
-
     # Compose the full user turn with system prompt + context
     user_turn = (
         f"{SYSTEM_PROMPT}\n\n"
@@ -70,10 +63,26 @@ async def chat(request: ChatRequest):
     # Persist user message
     await save_message(session_id, "user", request.message)
 
-    # Generate response via Gemini
-    chat_session = llm.start_chat(history=chat_history)
-    response = chat_session.send_message(user_turn)
-    answer = response.text
+    # Format history for Gemini (alternating user/model turns)
+    chat_history = [
+        types.Content(
+            role="user" if msg["role"] == "user" else "model",
+            parts=[types.Part(text=msg["content"])],
+        )
+        for msg in raw_history
+    ]
+
+    # Generate response via Gemini (run sync SDK in thread to avoid blocking)
+    def _generate() -> str:
+        client = _get_genai_client()
+        chat_session = client.chats.create(
+            model="gemini-1.5-flash",
+            history=chat_history,
+        )
+        response = chat_session.send_message(user_turn)
+        return response.text
+
+    answer = await asyncio.to_thread(_generate)
 
     # Persist assistant response
     await save_message(session_id, "assistant", answer)
