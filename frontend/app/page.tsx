@@ -1,23 +1,21 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
 import ChatInterface from '@/components/ChatInterface';
 import Navbar from '@/components/Navbar';
 
 export default function Home() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
 
   useEffect(() => {
-    const stored = localStorage.getItem('theme') as 'light' | 'dark' | null;
-    if (stored) {
-      setTheme(stored);
-      document.documentElement.setAttribute('data-theme', stored);
-    }
+    const stored = localStorage.getItem('theme') as 'dark' | 'light' | null;
+    const resolved = stored ?? 'dark';
+    setTheme(resolved);
+    document.documentElement.setAttribute('data-theme', resolved);
   }, []);
 
   const toggleTheme = () => {
-    const next = theme === 'light' ? 'dark' : 'light';
+    const next = theme === 'dark' ? 'light' : 'dark';
     setTheme(next);
     document.documentElement.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
@@ -32,6 +30,7 @@ export default function Home() {
         display: 'flex',
         flexDirection: 'column',
         fontFamily: 'var(--font-body)',
+        transition: 'background-color 0.2s ease, color 0.2s ease',
       }}
     >
       <Navbar theme={theme} onToggleTheme={toggleTheme} />

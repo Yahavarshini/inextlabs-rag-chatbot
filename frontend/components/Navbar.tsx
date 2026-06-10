@@ -1,7 +1,7 @@
 import ThemeToggle from './ThemeToggle';
 
 interface NavbarProps {
-  theme: 'light' | 'dark';
+  theme: 'dark' | 'light';
   onToggleTheme: () => void;
 }
 
@@ -13,9 +13,10 @@ export default function Navbar({ theme, onToggleTheme }: NavbarProps) {
         top: 0,
         zIndex: 50,
         height: '64px',
-        backgroundColor: 'var(--color-bg-page)',
+        backgroundColor: 'var(--color-bg-surface)',
         borderBottom: '1px solid var(--color-border)',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
       }}
       role="banner"
     >
@@ -30,34 +31,25 @@ export default function Navbar({ theme, onToggleTheme }: NavbarProps) {
           justifyContent: 'space-between',
         }}
       >
-        {/* Brand */}
+        {/* Brand — real iNextLabs logo from CDN */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <svg
-            width="32"
-            height="32"
-            viewBox="0 0 32 32"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-          >
-            <rect width="32" height="32" rx="8" fill="var(--color-primary)" />
-            <path d="M8 24V8l16 16H8z" fill="white" />
-            <path
-              d="M24 8v16"
-              stroke="white"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-            />
-          </svg>
+          <img
+            src="https://cdn.inextlabs.ai/images/icons/favicon.png"
+            alt="iNextLabs"
+            width={36}
+            height={36}
+            style={{ borderRadius: '8px', objectFit: 'contain' }}
+          />
           <div>
             <span
               style={{
                 display: 'block',
-                fontSize: '18px',
+                fontSize: '17px',
                 fontWeight: 700,
                 color: 'var(--color-text-primary)',
                 fontFamily: 'var(--font-heading)',
                 lineHeight: 1.2,
+                letterSpacing: '-0.01em',
               }}
             >
               iNextLabs
@@ -68,7 +60,8 @@ export default function Navbar({ theme, onToggleTheme }: NavbarProps) {
                 fontSize: '11px',
                 color: 'var(--color-text-secondary)',
                 fontWeight: 400,
-                letterSpacing: '0.02em',
+                letterSpacing: '0.03em',
+                textTransform: 'uppercase',
               }}
             >
               Support Assistant
@@ -83,12 +76,14 @@ export default function Navbar({ theme, onToggleTheme }: NavbarProps) {
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
-              padding: '4px 12px',
+              padding: '5px 12px',
               borderRadius: '999px',
-              backgroundColor: 'var(--color-primary-light)',
+              backgroundColor: 'rgba(16, 185, 129, 0.12)',
+              border: '1px solid rgba(16, 185, 129, 0.25)',
               fontSize: '12px',
-              fontWeight: 500,
-              color: 'var(--color-primary)',
+              fontWeight: 600,
+              color: '#10B981',
+              letterSpacing: '0.02em',
             }}
             aria-label="Service status: Online"
           >
@@ -97,8 +92,9 @@ export default function Navbar({ theme, onToggleTheme }: NavbarProps) {
                 width: '6px',
                 height: '6px',
                 borderRadius: '50%',
-                backgroundColor: 'var(--color-success)',
+                backgroundColor: '#10B981',
                 display: 'inline-block',
+                boxShadow: '0 0 6px #10B981',
               }}
               aria-hidden="true"
             />

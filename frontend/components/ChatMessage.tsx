@@ -26,72 +26,89 @@ export default function ChatMessage({ message }: ChatMessageProps) {
     <div
       style={{
         display: 'flex',
-        gap: '12px',
+        gap: '10px',
         alignItems: 'flex-start',
         flexDirection: isUser ? 'row-reverse' : 'row',
       }}
       role="article"
-      aria-label={`${isUser ? 'Your' : 'Assistant'} message`}
+      aria-label={`${isUser ? 'Your' : 'Nexus'} message`}
     >
       {/* Assistant avatar */}
       {!isUser && (
         <div
           style={{
-            width: '36px',
-            height: '36px',
+            width: '34px',
+            height: '34px',
             borderRadius: '50%',
-            backgroundColor: 'var(--color-primary)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
             flexShrink: 0,
+            overflow: 'hidden',
+            border: '1.5px solid rgba(255, 107, 53, 0.4)',
+            boxShadow: '0 0 10px rgba(255, 107, 53, 0.2)',
           }}
           aria-hidden="true"
         >
-          <svg width="18" height="18" viewBox="0 0 32 32" fill="none">
-            <path d="M8 24V8l16 16H8z" fill="white" />
-          </svg>
+          <img
+            src="https://cdn.inextlabs.ai/images/icons/favicon.png"
+            alt="Nexus"
+            width={34}
+            height={34}
+            style={{ objectFit: 'cover', display: 'block' }}
+          />
         </div>
       )}
 
       <div
         style={{
-          maxWidth: '72%',
+          maxWidth: '74%',
           display: 'flex',
           flexDirection: 'column',
           gap: '4px',
           alignItems: isUser ? 'flex-end' : 'flex-start',
         }}
       >
+        {!isUser && (
+          <span
+            style={{
+              fontSize: '11px',
+              fontWeight: 600,
+              color: 'var(--color-primary)',
+              letterSpacing: '0.04em',
+              textTransform: 'uppercase',
+              marginBottom: '2px',
+            }}
+          >
+            Nexus
+          </span>
+        )}
+
         <div
           style={{
             padding: '12px 16px',
-            borderRadius: isUser ? '16px 16px 0 16px' : '16px 16px 16px 0',
+            borderRadius: isUser ? '16px 16px 4px 16px' : '4px 16px 16px 16px',
             backgroundColor: isUser
               ? 'var(--color-primary)'
-              : 'var(--color-bg-page)',
-            color: isUser ? '#FFFFFF' : 'var(--color-text-primary)',
-            border: isUser ? 'none' : '1px solid var(--color-border)',
+              : 'var(--color-bg-card)',
+            color: isUser ? '#ffffff' : 'var(--color-text-primary)',
+            border: isUser
+              ? 'none'
+              : '1px solid var(--color-border)',
             fontSize: '14px',
-            lineHeight: '1.6',
+            lineHeight: '1.65',
             whiteSpace: 'pre-wrap',
             wordBreak: 'break-word',
+            boxShadow: isUser
+              ? '0 4px 16px rgba(255, 107, 53, 0.3)'
+              : '0 2px 8px rgba(0, 0, 0, 0.2)',
           }}
         >
           {renderContent(message.content)}
         </div>
 
         <span
-          style={{
-            fontSize: '11px',
-            color: 'var(--color-text-disabled)',
-          }}
+          style={{ fontSize: '11px', color: 'var(--color-text-disabled)' }}
           aria-label={`Sent at ${message.timestamp.toLocaleTimeString()}`}
         >
-          {message.timestamp.toLocaleTimeString([], {
-            hour: '2-digit',
-            minute: '2-digit',
-          })}
+          {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </span>
       </div>
     </div>

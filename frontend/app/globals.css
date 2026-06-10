@@ -1,37 +1,51 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fustat:wght@200..800&display=swap');
 
 :root {
-  --color-primary: #5B4FE9;
-  --color-primary-dark: #4338CA;
-  --color-primary-light: #EEF2FF;
-  --color-accent: #06B6D4;
-  --color-text-primary: #111827;
-  --color-text-secondary: #6B7280;
-  --color-text-disabled: #9CA3AF;
-  --color-bg-page: #FFFFFF;
-  --color-bg-surface: #F9FAFB;
-  --color-bg-muted: #F3F4F6;
-  --color-border: #E5E7EB;
-  --color-border-strong: #D1D5DB;
+  /* iNextLabs brand — aligned with inextlabs.ai */
+  --color-primary: #ff6b35;
+  --color-primary-dark: #e85a25;
+  --color-primary-light: rgba(255, 107, 53, 0.12);
+
+  --color-accent: #ff8c42;
+
+  --color-text-primary: #ffffff;
+  --color-text-secondary: rgba(255, 255, 255, 0.65);
+  --color-text-disabled: rgba(255, 255, 255, 0.35);
+
+  --color-bg-page: #161616;
+  --color-bg-surface: #1a1a1a;
+  --color-bg-card: rgba(255, 255, 255, 0.04);
+  --color-bg-muted: rgba(255, 255, 255, 0.06);
+
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-border-strong: rgba(255, 255, 255, 0.18);
+
   --color-success: #10B981;
   --color-warning: #F59E0B;
   --color-error: #EF4444;
   --color-info: #3B82F6;
-  --font-heading: 'Inter', sans-serif;
-  --font-body: 'Inter', sans-serif;
+
+  --font-heading: 'Fustat', 'Inter', sans-serif;
+  --font-body: 'Fustat', 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
 }
 
-[data-theme="dark"] {
-  --color-text-primary: #F9FAFB;
-  --color-text-secondary: #D1D5DB;
-  --color-text-disabled: #6B7280;
-  --color-bg-page: #0F172A;
-  --color-bg-surface: #1E293B;
-  --color-bg-muted: #334155;
-  --color-border: #334155;
-  --color-border-strong: #475569;
-  --color-primary-light: #1E1B4B;
+[data-theme="light"] {
+  --color-text-primary: #111827;
+  --color-text-secondary: #6B7280;
+  --color-text-disabled: #9CA3AF;
+  --color-bg-page: #f8f8f8;
+  --color-bg-surface: #ffffff;
+  --color-bg-card: rgba(0, 0, 0, 0.03);
+  --color-bg-muted: rgba(0, 0, 0, 0.05);
+  --color-border: rgba(0, 0, 0, 0.1);
+  --color-border-strong: rgba(0, 0, 0, 0.15);
+  --color-primary-light: rgba(255, 107, 53, 0.1);
 }
 
 *,
@@ -62,18 +76,18 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-bg-surface);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border-strong);
-  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-disabled);
+  background: rgba(255, 107, 53, 0.5);
 }

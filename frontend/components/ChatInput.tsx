@@ -16,9 +16,7 @@ export default function ChatInput({ onSend, isLoading }: ChatInputProps) {
     if (!trimmed || isLoading) return;
     onSend(trimmed);
     setValue('');
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
-    }
+    if (textareaRef.current) textareaRef.current.style.height = 'auto';
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -42,13 +40,17 @@ export default function ChatInput({ onSend, isLoading }: ChatInputProps) {
     <div
       style={{
         display: 'flex',
-        gap: '12px',
+        gap: '10px',
         alignItems: 'flex-end',
         padding: '12px 16px',
         backgroundColor: 'var(--color-bg-surface)',
         borderRadius: '16px',
         border: '1px solid var(--color-border)',
+        transition: 'border-color 0.2s ease',
+        boxShadow: '0 2px 12px rgba(0,0,0,0.2)',
       }}
+      onFocusCapture={(e) => (e.currentTarget.style.borderColor = 'rgba(255,107,53,0.4)')}
+      onBlurCapture={(e) => (e.currentTarget.style.borderColor = 'var(--color-border)')}
       role="form"
       aria-label="Chat input"
     >
@@ -58,7 +60,7 @@ export default function ChatInput({ onSend, isLoading }: ChatInputProps) {
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={handleKeyDown}
         onInput={handleInput}
-        placeholder="Ask about InextLabs services, billing, API usage..."
+        placeholder="Ask about iNextLabs services, billing, APIs..."
         disabled={isLoading}
         aria-label="Type your message"
         rows={1}
@@ -82,33 +84,24 @@ export default function ChatInput({ onSend, isLoading }: ChatInputProps) {
         disabled={!canSend}
         aria-label="Send message"
         style={{
-          width: '40px',
-          height: '40px',
+          width: '38px',
+          height: '38px',
           borderRadius: '10px',
           border: 'none',
-          backgroundColor: canSend
-            ? 'var(--color-primary)'
-            : 'var(--color-border)',
-          color: canSend ? '#FFFFFF' : 'var(--color-text-disabled)',
+          background: canSend
+            ? 'linear-gradient(135deg, #ff6b35, #ff8c42)'
+            : 'var(--color-bg-muted)',
+          color: canSend ? '#ffffff' : 'var(--color-text-disabled)',
           cursor: canSend ? 'pointer' : 'not-allowed',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           flexShrink: 0,
-          transition: 'background-color 0.15s ease',
+          transition: 'all 0.15s ease',
+          boxShadow: canSend ? '0 4px 12px rgba(255,107,53,0.4)' : 'none',
         }}
       >
-        <svg
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-        >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <line x1="22" y1="2" x2="11" y2="13" />
           <polygon points="22 2 15 22 11 13 2 9 22 2" />
         </svg>
