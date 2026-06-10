@@ -9,8 +9,8 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from app.config import settings
 
-EMBEDDING_MODEL = "models/text-embedding-004"
-EMBEDDING_DIMENSION = 768
+EMBEDDING_MODEL = "models/gemini-embedding-001"
+EMBEDDING_DIMENSION = 3072
 
 
 def _make_client() -> genai.Client:
