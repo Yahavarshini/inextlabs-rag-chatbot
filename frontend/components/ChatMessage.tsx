@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import type { Message } from '@/lib/types';
 
 interface ChatMessageProps {
@@ -21,6 +22,11 @@ function renderContent(content: string): React.ReactNode[] {
 
 export default function ChatMessage({ message }: ChatMessageProps) {
   const isUser = message.role === 'user';
+  const [timeLabel, setTimeLabel] = useState('');
+
+  useEffect(() => {
+    setTimeLabel(message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+  }, [message.timestamp]);
 
   return (
     <div
@@ -106,9 +112,10 @@ export default function ChatMessage({ message }: ChatMessageProps) {
 
         <span
           style={{ fontSize: '11px', color: 'var(--color-text-disabled)' }}
-          aria-label={`Sent at ${message.timestamp.toLocaleTimeString()}`}
+          aria-label={timeLabel ? `Sent at ${timeLabel}` : undefined}
+          suppressHydrationWarning
         >
-          {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          {timeLabel}
         </span>
       </div>
     </div>

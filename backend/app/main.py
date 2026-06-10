@@ -76,7 +76,7 @@ async def chat(request: ChatRequest):
     def _generate() -> str:
         client = _get_genai_client()
         chat_session = client.chats.create(
-            model="gemini-1.5-flash",
+            model="gemini-2.0-flash",
             history=chat_history,
         )
         response = chat_session.send_message(user_turn)
