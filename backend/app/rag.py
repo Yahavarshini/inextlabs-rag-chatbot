@@ -2,25 +2,29 @@ import os
 import pickle
 
 import faiss
-import google.generativeai as genai
 import numpy as np
+from google import genai
+from google.genai import types
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from app.config import settings
-
-genai.configure(api_key=settings.gemini_api_key)
 
 EMBEDDING_MODEL = "models/text-embedding-004"
 EMBEDDING_DIMENSION = 768
 
 
+def _make_client() -> genai.Client:
+    return genai.Client(api_key=settings.gemini_api_key)
+
+
 def get_embedding(text: str) -> list:
-    result = genai.embed_content(
+    client = _make_client()
+    result = client.models.embed_content(
         model=EMBEDDING_MODEL,
-        content=text,
-        task_type="retrieval_document",
+        contents=text,
+        config=types.EmbedContentConfig(task_type="RETRIEVAL_DOCUMENT"),
     )
-    return result["embedding"]
+    return result.embeddings[0].values
 
 
 class RAGEngine:
